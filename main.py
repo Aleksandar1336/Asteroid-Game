@@ -4,15 +4,18 @@ from logger import log_state
 from player import Player
 
 def main():
+  
+    pygame.init()
+
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    clock = pygame.time.Clock()
+    dt = 0
     player = Player(
     SCREEN_WIDTH / 2,
     SCREEN_HEIGHT / 2
 )
-    pygame.init()
-    clock = pygame.time.Clock()
-    
-    dt = 0
-    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     print(f"Screen width: {SCREEN_WIDTH}")
@@ -28,8 +31,10 @@ def main():
 
 
         screen.fill((0, 0, 0))
-        player.draw(screen)
-        player.update(dt) 
+        for drawables in drawable:
+            drawables.draw(screen)
+        for obj in updatable:
+            obj.update(dt) 
         pygame.display.flip() 
      
 
